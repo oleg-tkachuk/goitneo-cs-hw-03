@@ -29,7 +29,6 @@ def insert_users(cur, num_users=10):
 
 
 def insert_tasks(cur, num_tasks=100, num_users=10, num_statuses=8):
-    """Генерує та вставляє завдання у таблицю 'tasks'."""
     for _ in range(num_tasks):
         title = fake.sentence(nb_words=6)
         description = fake.text(max_nb_chars=200)
