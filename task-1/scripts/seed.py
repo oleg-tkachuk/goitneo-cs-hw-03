@@ -61,11 +61,18 @@ def insert_tasks(cur, num_tasks=100, num_users=10, num_statuses=8):
         cur.execute('ROLLBACK')
 
 
-def validate_port(port):
+def validate_port(value):
+    try:
+        port = int(value)
+    except ValueError:
+        raise argparse.ArgumentTypeError(
+            f"{value} is not a valid port number.")
+
     if 0 <= port <= 65535:
         return port
     else:
-        raise argparse.ArgumentTypeError(f"Port {port} is out of range.")
+        raise argparse.ArgumentTypeError(
+            f"Port number {port} is out of range. Must be 0-65535.")
 
 
 def cli():
@@ -80,7 +87,7 @@ def cli():
     parser.add_argument('--host', required=True, type=str,
                         default='localhost', help='Database host (default: %(default)s)')
     parser.add_argument('--port', required=True, type=validate_port,
-                        default='5432', help='Database port (default: %(default)s)')
+                        default=5432, help='Database port (default: %(default)s)')
 
     args = parser.parse_args()
 
