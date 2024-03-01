@@ -4,8 +4,13 @@ from bson.objectid import ObjectId
 from pymongo import MongoClient, errors
 from pymongo.server_api import ServerApi
 
+username = 'root'
+password = 'awFd6-7qUa-0nWc-L5g7'
+hostname = 'localhost'
+port = '27017'
+auth_source = 'admin'
 
-uri = "mongodb://localhost:27017"
+uri = f"mongodb://{username}:{password}@{hostname}:{port}/?authSource={auth_source}"
 client = MongoClient(uri, server_api=ServerApi('1'))
 
 db = client['cats_db']
