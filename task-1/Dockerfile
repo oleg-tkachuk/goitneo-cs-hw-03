@@ -12,9 +12,9 @@ RUN pip3 install psycopg2-binary \
     && pip3 install faker
 
 COPY scripts/seed.py /app/seed.py
-COPY scripts/entrypoint.sh /app/entrypoint.sh
+COPY scripts/entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /app/seed.py /app/entrypoint.sh
+RUN chmod +x /app/seed.py /entrypoint.sh
 
 USER appuser
 
