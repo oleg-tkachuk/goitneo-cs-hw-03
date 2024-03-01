@@ -17,7 +17,7 @@
 
 ## HOWTO
 
-Change to the [task-1/](task/) directory by using the command:
+Change to the [task-1/](task-1/) directory by using the command:
 
    ```shell
    cd task-1/
@@ -41,6 +41,12 @@ Now you can connect to the PostgreSQL database using pgAdmin 4:
 - Use the credentials from the file [.env](task-1/.env) for the login.
 
 You will see that this database was filled with fake data using the [seed.py](task-1/scripts/seed.py) script.
+
+To stop and delete all resources that were created using the docker-compose up command in the current Docker Compose project, run the command in the [task-1/](task-1/) directory:
+
+```shell
+docker-compose down --volumes
+```
 
 ## SQL queries
 
