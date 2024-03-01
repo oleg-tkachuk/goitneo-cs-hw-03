@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-SCRIPT="python3 ./mongo-crud-cats.py"
+SCRIPTS_PATH=$(realpath "$0")
+SCRIPTS_DIR=$(dirname "${SCRIPTS_PATH}")
+
+SCRIPT="python3 ${SCRIPTS_DIR}/mongo-crud-cats.py --dotenv ${SCRIPTS_DIR}/.env"
 
 function get_first_id_by_name() {
     local name=$1
