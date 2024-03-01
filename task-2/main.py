@@ -23,6 +23,7 @@ def create_cat(name, age, features):
     except errors.PyMongoError as e:
         print("MongoDB error:", e)
 
+
 def read_cats(cat_id=None, name=None):
     try:
         query = {}
@@ -36,6 +37,7 @@ def read_cats(cat_id=None, name=None):
             print(cat)
     except errors.PyMongoError as e:
         print("MongoDB error:", e)
+
 
 def update_cat(cat_id, name=None, age=None, features=None):
     try:
@@ -56,6 +58,7 @@ def update_cat(cat_id, name=None, age=None, features=None):
     except errors.PyMongoError as e:
         print("MongoDB error:", e)
 
+
 def delete_cat(cat_id):
     try:
         result = collection.delete_one({"_id": ObjectId(cat_id)})
@@ -66,13 +69,17 @@ def delete_cat(cat_id):
     except errors.PyMongoError as e:
         print("MongoDB error:", e)
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Perform CRUD operations on cat database')
-    parser.add_argument('--action', type=str, help='Operation to perform', choices=['create', 'read', 'update', 'delete'])
+    parser = argparse.ArgumentParser(
+        description='Perform CRUD operations on cat database')
+    parser.add_argument('--action', type=str, help='Operation to perform',
+                        choices=['create', 'read', 'update', 'delete'])
     parser.add_argument('--id', type=str, help='The MongoDB ObjectId')
     parser.add_argument('--name', type=str, help='Name of the cat')
     parser.add_argument('--age', type=int, help='Age of the cat')
-    parser.add_argument('--features', nargs='+', help='List of features of the cat')
+    parser.add_argument('--features', nargs='+',
+                        help='List of features of the cat')
 
     args = parser.parse_args()
 
@@ -86,7 +93,8 @@ def main():
             read_cats(cat_id=args.id, name=args.name)
         case 'update':
             if args.id:
-                update_cat(args.id, name=args.name, age=args.age, features=args.features)
+                update_cat(args.id, name=args.name,
+                           age=args.age, features=args.features)
             else:
                 print("Missing cat's id for update.")
         case 'delete':
