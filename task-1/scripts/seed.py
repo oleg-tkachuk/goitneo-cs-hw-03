@@ -94,11 +94,13 @@ def cli():
     return args
 
 
-def main(dbname, user, password, host, port):
+def main():
+    args = cli()
+
     try:
         print("[info] Connecting to the PostgreSQL database...")
-        print(f"[info] Connections details: {dbname}/{user}@{host}:{port}")
-        conn = create_connection(dbname, user, password, host, port)
+        print(f"[info] Connections details: {args.dbname}/{args.user}@{args.host}:{args.port}")
+        conn = create_connection(args.dbname, args.user, args.password, args.host, args.port)
         if conn is None:
             raise Exception("Failed to connect to the database.")
         else:
@@ -120,5 +122,4 @@ def main(dbname, user, password, host, port):
 
 
 if __name__ == '__main__':
-    args = cli()
-    main(args.dbname, args.user, args.password, args.host, args.port)
+    main()
