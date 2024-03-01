@@ -29,9 +29,9 @@ def create_cat(name, age, features):
             "features": features
         }
         collection.insert_one(new_cat)
-        print("New cat created.")
+        print("[ok] New cat created.")
     except errors.PyMongoError as e:
-        print("MongoDB error:", e)
+        print("[error] MongoDB error:", e)
 
 
 def read_cats(cat_id=None, name=None):
@@ -46,7 +46,7 @@ def read_cats(cat_id=None, name=None):
         for cat in cats:
             print(cat)
     except errors.PyMongoError as e:
-        print("MongoDB error:", e)
+        print("[error] MongoDB error:", e)
 
 
 def update_cat(cat_id, name=None, age=None, features=None):
@@ -62,9 +62,9 @@ def update_cat(cat_id, name=None, age=None, features=None):
 
         if update_data:
             collection.update_one(query, {'$set': update_data})
-            print("Cat updated.")
+            print("[ok] Cat updated.")
         else:
-            print("No update data provided.")
+            print("[info] No update data provided.")
     except errors.PyMongoError as e:
         print("MongoDB error:", e)
 
@@ -73,11 +73,11 @@ def delete_cat(cat_id):
     try:
         result = collection.delete_one({"_id": ObjectId(cat_id)})
         if result.deleted_count:
-            print("Cat deleted successfully")
+            print("[ok] Cat deleted successfully")
         else:
-            print("Cat not found")
+            print("[info] Cat not found")
     except errors.PyMongoError as e:
-        print("MongoDB error:", e)
+        print("[error] MongoDB error:", e)
 
 
 def main():
@@ -102,7 +102,7 @@ def main():
             if args.name and args.age and args.features:
                 create_cat(args.name, args.age, args.features)
             else:
-                print("Missing required data for creation.")
+                print("[warning] Missing required data for creation.")
         case 'read':
             read_cats(cat_id=args.id, name=args.name)
         case 'update':
@@ -110,14 +110,14 @@ def main():
                 update_cat(args.id, name=args.name,
                            age=args.age, features=args.features)
             else:
-                print("Missing cat's id for update.")
+                print("[warning] Missing cat's id for update.")
         case 'delete':
             if args.id:
                 delete_cat(args.id)
             else:
-                print("Missing cat's id for deletion.")
+                print("[warning] Missing cat's id for deletion.")
         case _:
-            print("Invalid or missing action.")
+            print("[error] Invalid or missing action.")
 
 
 if __name__ == "__main__":
