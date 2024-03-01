@@ -9,5 +9,12 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     restart: unless-stopped
+
+  seed:
+    build: .
+    command: python ./seed.py
+    depends_on:
+      - postgres
+
