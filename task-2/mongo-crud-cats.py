@@ -1,27 +1,12 @@
-import sys
+import os
 import argparse
+from dotenv import load_dotenv
 from bson.objectid import ObjectId
 from pymongo import MongoClient, errors
 from pymongo.server_api import ServerApi
 
-username = 'root'
-password = 'awFd6-7qUa-0nWc-L5g7'
-hostname = 'localhost'
-port = '27017'
-auth_source = 'admin'
-mongo_db_name = 'cats_db'
-mongo_collection_name = 'cats'
-mongo_server_api_version = '1'
 
-
-uri = f"mongodb://{username}:{password}@{hostname}:{port}/?authSource={auth_source}"
-client = MongoClient(uri, server_api=ServerApi(mongo_server_api_version))
-
-db = client[mongo_db_name]
-collection = db[mongo_collection_name]
-
-
-def create_cat(name, age, features):
+def create_cat(collection, name, age, features):
     try:
         new_cat = {
             "name": name,
@@ -34,7 +19,7 @@ def create_cat(name, age, features):
         print("[error] MongoDB error:", e)
 
 
-def read_cats(cat_id=None, name=None):
+def read_cats(collection, cat_id=None, name=None):
     try:
         query = {}
         if cat_id:
@@ -49,7 +34,7 @@ def read_cats(cat_id=None, name=None):
         print("[error] MongoDB error:", e)
 
 
-def update_cat(cat_id, name=None, age=None, features=None):
+def update_cat(collection, cat_id, name=None, age=None, features=None):
     try:
         query = {"_id": ObjectId(cat_id)}
         update_data = {}
@@ -69,7 +54,7 @@ def update_cat(cat_id, name=None, age=None, features=None):
         print("MongoDB error:", e)
 
 
-def delete_cat(cat_id):
+def delete_cat(collection, cat_id):
     try:
         result = collection.delete_one({"_id": ObjectId(cat_id)})
         if result.deleted_count:
@@ -80,10 +65,12 @@ def delete_cat(cat_id):
         print("[error] MongoDB error:", e)
 
 
-def main():
+def cli():
     parser = argparse.ArgumentParser(
         description='Perform CRUD operations on cat database')
-    parser.add_argument('--action', type=str, help='Operation to perform',
+    parser.add_argument('--dotenv', type=str, default='.env',
+                        help='Path to the .env file (default: %(default)s)')
+    parser.add_argument('--action', required=True, type=str, help='Operation to perform',
                         choices=['create', 'read', 'update', 'delete'])
     parser.add_argument('--id', type=str, help='The MongoDB ObjectId')
     parser.add_argument('--name', type=str, help='Name of the cat')
@@ -91,31 +78,49 @@ def main():
     parser.add_argument('--features', nargs='+',
                         help='List of features of the cat')
 
-    if len(sys.argv) == 1:
-        parser.print_help(sys.stderr)
-        sys.exit(1)
+    return parser.parse_args()
 
-    args = parser.parse_args()
+
+def main():
+    args = cli()
+
+    load_dotenv(dotenv_path=args.dotenv)
+
+    username = os.getenv('MONGO_INITDB_ROOT_USERNAME', 'root')
+    password = os.getenv('MONGO_INITDB_ROOT_PASSWORD')
+    hostname = os.getenv('MONGO_HOST', 'localhost')
+    port = os.getenv('MONGO_PORT', '27017')
+    auth_source = os.getenv('MONGO_AUTH_SOURCE', 'admin')
+    mongo_db_name = os.getenv('MONGO_DB_NAME')
+    mongo_collection_name = os.getenv('MONGO_COLLECTION_NAME')
+    mongo_server_api_version = os.getenv('MONGO_SERVER_API_VERSION', '1')
+
+    uri = f"mongodb://{username}:{password}@{
+        hostname}:{port}/?authSource={auth_source}"
+    client = MongoClient(uri, server_api=ServerApi(mongo_server_api_version))
+
+    db = client[mongo_db_name]
+    collection = db[mongo_collection_name]
 
     match args.action:
         case 'create':
             if args.name and args.age and args.features:
-                create_cat(args.name, args.age, args.features)
+                create_cat(collection, args.name, args.age, args.features)
             else:
-                print("[warning] Missing required data for creation.")
+                print("[error] Missing required data for creation.")
         case 'read':
-            read_cats(cat_id=args.id, name=args.name)
+            read_cats(collection, cat_id=args.id, name=args.name)
         case 'update':
             if args.id:
-                update_cat(args.id, name=args.name,
+                update_cat(collection, args.id, name=args.name,
                            age=args.age, features=args.features)
             else:
-                print("[warning] Missing cat's id for update.")
+                print("[error] Missing cat's id for update.")
         case 'delete':
             if args.id:
-                delete_cat(args.id)
+                delete_cat(collection, args.id)
             else:
-                print("[warning] Missing cat's id for deletion.")
+                print("[error] Missing cat's id for deletion.")
         case _:
             print("[error] Invalid or missing action.")
 
