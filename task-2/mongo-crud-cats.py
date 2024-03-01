@@ -65,13 +65,21 @@ def delete_cat(collection, cat_id):
         print("[error] MongoDB error:", e)
 
 
+def delete_all_records(collection):
+    try:
+        result = collection.delete_many({})
+        print(f"[ok] {result.deleted_count} records deleted.")
+    except errors.PyMongoError as e:
+        print("[error] MongoDB error:", e)
+
+
 def cli():
     parser = argparse.ArgumentParser(
         description='Perform CRUD operations on cat database')
     parser.add_argument('--dotenv', type=str, default='.env',
                         help='Path to the .env file (default: %(default)s)')
     parser.add_argument('--action', required=True, type=str, help='Operation to perform',
-                        choices=['create', 'read', 'update', 'delete'])
+                        choices=['create', 'read', 'update', 'delete', 'delete-all'])
     parser.add_argument('--id', type=str, help='The MongoDB ObjectId')
     parser.add_argument('--name', type=str, help='Name of the cat')
     parser.add_argument('--age', type=int, help='Age of the cat')
@@ -121,6 +129,8 @@ def main():
                 delete_cat(collection, args.id)
             else:
                 print("[error] Missing cat's id for deletion.")
+        case 'delete-all':
+            delete_all_records(collection)
         case _:
             print("[error] Invalid or missing action.")
 
