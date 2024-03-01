@@ -9,13 +9,16 @@ password = 'awFd6-7qUa-0nWc-L5g7'
 hostname = 'localhost'
 port = '27017'
 auth_source = 'admin'
+mongo_db_name = 'cats_db'
+mongo_collection_name = 'cats'
 mongo_server_api_version = '1'
+
 
 uri = f"mongodb://{username}:{password}@{hostname}:{port}/?authSource={auth_source}"
 client = MongoClient(uri, server_api=ServerApi(mongo_server_api_version))
 
-db = client['cats_db']
-collection = db['cats']
+db = client[mongo_db_name]
+collection = db[mongo_collection_name]
 
 
 def create_cat(name, age, features):
