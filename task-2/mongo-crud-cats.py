@@ -9,9 +9,10 @@ password = 'awFd6-7qUa-0nWc-L5g7'
 hostname = 'localhost'
 port = '27017'
 auth_source = 'admin'
+mongo_server_api_version = '1'
 
 uri = f"mongodb://{username}:{password}@{hostname}:{port}/?authSource={auth_source}"
-client = MongoClient(uri, server_api=ServerApi('1'))
+client = MongoClient(uri, server_api=ServerApi(mongo_server_api_version))
 
 db = client['cats_db']
 collection = db['cats']
