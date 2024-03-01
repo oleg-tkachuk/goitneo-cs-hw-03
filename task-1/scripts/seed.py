@@ -1,4 +1,5 @@
 import random
+import argparse
 from faker import Faker
 import psycopg2 as psy
 from psycopg2 import sql, errors
@@ -60,13 +61,33 @@ def insert_tasks(cur, num_tasks=100, num_users=10, num_statuses=8):
         cur.execute('ROLLBACK')
 
 
-def main():
-    dbname = 'task_manager'
-    user = 'db_admin'
-    password = 's7fC-Qc8hg-5wKm-An3x'
-    host = 'postgres'
-    port = '5432'
+def validate_port(port):
+    if 0 <= port <= 65535:
+        return port
+    else:
+        raise argparse.ArgumentTypeError(f"Port {port} is out of range.")
 
+
+def cli():
+    parser = argparse.ArgumentParser(
+        description='Seed database with fake data.')
+    parser.add_argument('--dbname', required=True, type=str,
+                        default='task_manager', help='Database name (default: %(default)s)')
+    parser.add_argument('--user', required=True, type=str,
+                        default='db_admin', help='Database user (default: %(default)s)')
+    parser.add_argument('--password', required=True,
+                        type=str, help='Database password')
+    parser.add_argument('--host', required=True, type=str,
+                        default='localhost', help='Database host (default: %(default)s)')
+    parser.add_argument('--port', required=True, type=validate_port,
+                        default='5432', help='Database port (default: %(default)s)')
+
+    args = parser.parse_args()
+
+    return args
+
+
+def main(dbname, user, password, host, port):
     try:
         print("[info] Connecting to the PostgreSQL database...")
         print(f"[info] Connections details: {dbname}/{user}@{host}:{port}")
@@ -92,4 +113,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    args = cli()
+    main(args.dbname, args.user, args.password, args.host, args.port)
