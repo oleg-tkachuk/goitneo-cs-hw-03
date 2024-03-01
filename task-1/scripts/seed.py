@@ -89,9 +89,7 @@ def cli():
     parser.add_argument('--port', required=True, type=validate_port,
                         default=5432, help='Database port (default: %(default)s)')
 
-    args = parser.parse_args()
-
-    return args
+    return parser.parse_args()
 
 
 def main():
