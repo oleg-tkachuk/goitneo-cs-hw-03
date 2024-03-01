@@ -14,7 +14,10 @@ services:
 
   seed:
     build: .
-    command: python ./seed.py
+    entrypoint: ["/entrypoint.sh"]
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
     depends_on:
       - postgres
 
