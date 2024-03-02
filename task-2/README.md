@@ -16,13 +16,13 @@
 
 ## HOWTO
 
-Change to the [task-2/](task-2/) directory by using the command:
+Change to the [task-2/](./) directory by using the command:
 
    ```shell
    cd task-2/
    ```
 
-Run the following command to start the services defined in the [docker-compose.yml](task-2/docker-compose.yaml):
+Run the following command to start the services defined in the [docker-compose.yml](./docker-compose.yaml):
 
 ```shell
 docker-compose up
@@ -34,7 +34,7 @@ Or, if you prefer to run in detached mode (in the background):
 docker-compose up -d
 ```
 
-Now run the script [demo.sh](task-2/demo.sh):
+Now run the script [demo.sh](./demo.sh):
 
 ```shell
 ./demo.sh
@@ -46,14 +46,14 @@ or
 bash ./demo.sh
 ```
 
-This demo script will show you some examples of how to use the [mongo-crud-cats.py](task-2/mongo-crud-cats.py) script.
-You can also run [mongo-crud-cats.py](task-2/mongo-crud-cats.py) with the `--help` switch for more information on how to use it.
+This demo script will show you some examples of how to use the [mongo-crud-cats.py](./mongo-crud-cats.py) script.
+You can also run [mongo-crud-cats.py](./mongo-crud-cats.py) with the `--help` switch for more information on how to use it.
 
 ```shell
 python3 ./mongo-crud-cats.py --help
 ```
 
-To stop and delete all resources that were created using the `docker-compose up` command in the current Docker Compose project, run the command in the [task-2/](task-2/) directory:
+To stop and delete all resources that were created using the `docker-compose up` command in the current Docker Compose project, run the command in the [task-2/](./) directory:
 
 ```shell
 docker-compose down --volumes
