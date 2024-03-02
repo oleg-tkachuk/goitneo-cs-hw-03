@@ -47,7 +47,7 @@ bash ./demo.sh
 ```
 
 This demo script will show you some examples of how to use the [mongo-crud-cats.py](./mongo-crud-cats.py) script.
-You can also run [mongo-crud-cats.py](./mongo-crud-cats.py) with the `--help` switch for more information on how to use it.
+You can also run [mongo-crud-cats.py](./mongo-crud-cats.py) with the `--help` switch for more information on how to use it. Please note that this script reads credentials from the [.env](./.env) file.
 
 ```shell
 python3 ./mongo-crud-cats.py --help
