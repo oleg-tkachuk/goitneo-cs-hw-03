@@ -143,7 +143,7 @@ Replace `example.com` with the desired domain.
 SELECT * FROM tasks WHERE description IS NULL OR description = '';
 ```
 
-13. Select users and their tasks that are in the 'in progress' status.
+13. Select users and their tasks that are in the 'in progress' status.  
 Use INNER JOIN to get a list of users and their tasks with a specific status.
 
 ```sql
@@ -153,7 +153,7 @@ INNER JOIN status ON tasks.status_id = status.id
 WHERE status.name = 'in progress';
 ```
 
-14. Get the users and the number of their tasks.
+14. Get the users and the number of their tasks.  
 Use LEFT JOIN and GROUP BY to select users and count their tasks:
 
 ```sql
