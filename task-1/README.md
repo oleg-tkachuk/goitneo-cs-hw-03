@@ -17,13 +17,13 @@
 
 ## HOWTO
 
-Change to the [task-1/](task-1/) directory by using the command:
+Change to the [task-1/](./) directory by using the command:
 
    ```shell
    cd task-1/
    ```
 
-Run the following command to start the services defined in the [docker-compose.yml](task-1/docker-compose.yaml):
+Run the following command to start the services defined in the [docker-compose.yml](./docker-compose.yaml):
 
 ```shell
 docker-compose up
@@ -38,11 +38,11 @@ docker-compose up -d
 Now you can connect to the PostgreSQL database using pgAdmin 4:
 
 - Use `localhost` as the host.
-- Use the credentials from the file [.env](task-1/.env) for the login.
+- Use the credentials from the file [.env](./.env) for the login.
 
-You will see that this database was filled with fake data using the [seed.py](task-1/scripts/seed.py) script.
+You will see that this database was filled with fake data using the [seed.py](./scripts/seed.py) script.
 
-To stop and delete all resources that were created using the `docker-compose up` command in the current Docker Compose project, run the command in the [task-1/](task-1/) directory:
+To stop and delete all resources that were created using the `docker-compose up` command in the current Docker Compose project, run the command in the [task-1/](./) directory:
 
 ```shell
 docker-compose down --volumes
